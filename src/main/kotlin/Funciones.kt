@@ -11,10 +11,10 @@ fun pedirCita() {
             println("No hay citas")
         }else {
             for (cia in cit ){
-                if (!(cia.acudio)) {
+                /*if (!(cia.acudio)) {*/
                     println("CITA NUM:${cia.numCita}")
                     println("Dia de la cita:${cia.diaCita};Hora de la cita:${cia.horaCita}")
-                }
+                /*}*/
             }
         }
         println("OPCIONES: ")
@@ -72,17 +72,33 @@ fun pedirCita() {
                 }
             }
         } else if (op == 2) {
-            for (c in cit) {
-                if (!(c.acudio)) {
-                    println("Cita del dia ${c.diaCita}")
-                    print("¿Acudio a la cita o se le paso el plazo?")
-                    var tmp9: String? = readLine()
-                    var oc: String = tmp9.toString()
-                    if (oc == "S" || oc == "s" || oc == "si" || oc == "SI" || oc == "Si" || oc == "1") {
-                            c.acudio = true
+            do {
+                var num: Int = 0
+                var acu: Boolean = false
+                for ((c, cs) in cit.withIndex()) {
+                    if (!(cs.acudio)) {
+                        println("Cita del dia ${cs.diaCita}")
+                        print("¿Acudio a la cita o se le paso el plazo?")
+                        var tmp9: String? = readLine()
+                        var oc: String = tmp9.toString()
+                        if (oc == "S" || oc == "s" || oc == "si" || oc == "SI" || oc == "Si" || oc == "1") {
+                            acu = true
+                            num = c
+                            break
+                        }
                     }
                 }
-            }
+                if (acu) {
+                    cit.removeAt(num)
+                }
+                var salir: Boolean = false
+                print("¿Desea seguir actualizando el calendario(S/N)? ")
+                var tmp3: String? = readLine()
+                var resp: String = tmp3.toString()
+                if (resp == "N") {
+                    salir = true
+                }
+            }while(!salir)
         } else if(op==3) {
            return
         }else{
